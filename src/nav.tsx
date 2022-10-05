@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import { ReactComponent as Logo } from "./img/logo.svg";
 import { ReactComponent as Cart } from "./img/cart.svg";
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 const NavContainer = styled.section`
+  height: 5em;
   display: grid;
   grid-template-columns: auto 45% 1fr;
   grid-template-rows: 30px;
-  margin: 2% 10% 0 10%;
-  padding-bottom: 2%;
+  margin: 2% 10% 0% 10%;
+
+  border-bottom: 1px solid black;
 `;
 
 const AvatarCartContainer = styled.section`
+  position: relative;
   grid-column: 3/4;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
-  gap: 3em;
+  gap: 3rem;
 `;
 
 const Avatar = styled.img`
@@ -34,6 +36,7 @@ const LogoContainer = styled.section`
 `;
 
 const HeadingsContainer = styled.section`
+  height: 5em;
   display: flex;
   justify-content: flex-end;
   flex-direction: row;
@@ -43,22 +46,42 @@ const HeadingsContainer = styled.section`
   text-align: center;
 `;
 const Headings = styled.a`
+  height: 5em;
   text-decoration: none;
   border-bottom: 3px solid transparent;
-  padding: 41px 0px;
   width: 17%;
   box-sizing: border-box;
   &:hover {
     border-bottom: 3px solid orange;
-    box-sizing: border-box;
   }
   &:active {
     color: black;
   }
 `;
 
+const CartQuantity = styled.p<Value>`
+  position: absolute;
+  right: 6.7em;
+  bottom: 0.3em;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: orange;
+  border-radius: 50%;
+  padding: 0.3em;
+  z-index: 1;
+  color: white;
+  height: 10px;
+  line-height: 10px;
+  text-align: center;
+  display: ${(props) => (props.value === 0 ? "none" : "block")};
+`;
+
 interface Quantity {
   cartCounter: number;
+}
+
+interface Value {
+  value: number;
 }
 
 export const Nav = ({ cartCounter }: Quantity) => {
@@ -77,11 +100,10 @@ export const Nav = ({ cartCounter }: Quantity) => {
         </HeadingsContainer>
         <AvatarCartContainer>
           <Avatar alt="avatar" width="40px" src="/avatar.png"></Avatar>
-          <p>{cartCounter}</p>
+          <CartQuantity value={cartCounter}>{cartCounter}</CartQuantity>
           <Cart style={{ cursor: "pointer" }}></Cart>
         </AvatarCartContainer>
       </NavContainer>
-      <hr></hr>
     </>
   );
 };

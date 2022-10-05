@@ -13,6 +13,7 @@ import thumbnail4 from "./image-product-4-thumbnail.jpg";
 import { useHighlightImage } from "./imageHighlightHook";
 
 interface MainContent {
+  setProductImage: Function;
   smallHeading: string;
   bigHeading: string;
   infoText: string | number;
@@ -23,6 +24,7 @@ interface MainContent {
   count: number;
   cartCounter: number;
   setCartCounter: Function;
+  setCartInformation: Function;
 }
 
 const MainContainer = styled.main`
@@ -105,6 +107,9 @@ const ProductValue = styled.p`
   &::after {
     content: ".00";
   }
+  &::before {
+    content: "$";
+  }
   font-weight: 700;
   font-size: 25px;
 `;
@@ -132,6 +137,8 @@ interface ProductImgInterface {
 }
 
 export const Main = ({
+  setCartInformation,
+  setProductImage,
   adjustCount,
   count,
   smallHeading,
@@ -261,6 +268,12 @@ export const Main = ({
             <ButtonsContainer>
               <QuantityButton count={count} adjustCount={adjustCount} />
               <AddToCart
+                buttonText="Add to Cart"
+                setCartInformation={setCartInformation}
+                src={thumbnail1}
+                title={"Fall Limited Edition Sneakers"}
+                value={productValue}
+                setProductImage={setProductImage}
                 cartCounter={cartCounter}
                 setCartCounter={setCartCounter}
                 count={count}
