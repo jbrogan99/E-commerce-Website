@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { ReactComponent as Logo } from "./img/logo.svg";
 import { ReactComponent as Cart } from "./img/cart.svg";
 import styled from "styled-components";
+import { BasketEmpty } from "./basketEmpty";
+import { BasketFull } from "./basketFull";
+import { Basket } from "./basket";
 
 const NavContainer = styled.section`
   height: 5em;
@@ -54,7 +57,10 @@ const Headings = styled.a`
   &:hover {
     border-bottom: 3px solid orange;
   }
-  &:active {
+  &:visited {
+    color: black;
+  }
+  &:link {
     color: black;
   }
 `;
@@ -78,13 +84,48 @@ const CartQuantity = styled.p<Value>`
 
 interface Quantity {
   cartCounter: number;
+  cartInformation: any;
+  setBasket: Function;
+  setBasketOpen: Function;
+  basketOpen: boolean;
 }
 
 interface Value {
   value: number;
 }
 
-export const Nav = ({ cartCounter }: Quantity) => {
+export interface BasketItems {
+  empty: boolean;
+  full: boolean;
+}
+
+export const Nav = ({
+  cartCounter,
+  cartInformation,
+  setBasket,
+  setBasketOpen,
+  basketOpen,
+}: Quantity) => {
+  const updateBasket = (items: any) => {
+    let newState: BasketItems = {
+      empty: false,
+      full: false,
+    };
+    newState[items as keyof BasketItems] = true;
+    setBasket(newState);
+  };
+
+  const checkBasketQuantity = () => {
+    console.log("counter", cartCounter);
+    if (cartCounter === 0) {
+      updateBasket("empty");
+      setBasketOpen(!basketOpen);
+    } else {
+      updateBasket("full");
+      setBasketOpen(!basketOpen);
+    }
+  };
+
   return (
     <>
       <NavContainer>
@@ -101,7 +142,10 @@ export const Nav = ({ cartCounter }: Quantity) => {
         <AvatarCartContainer>
           <Avatar alt="avatar" width="40px" src="/avatar.png"></Avatar>
           <CartQuantity value={cartCounter}>{cartCounter}</CartQuantity>
-          <Cart style={{ cursor: "pointer" }}></Cart>
+          <Cart
+            onClick={checkBasketQuantity}
+            style={{ cursor: "pointer" }}
+          ></Cart>
         </AvatarCartContainer>
       </NavContainer>
     </>

@@ -1,7 +1,5 @@
-import * as React from "react";
 import styled from "styled-components";
-import { useHighlightImage } from "../imageHighlightHook";
-import { ReactComponent as Cart } from "./img/cart.svg";
+import { Basket } from "../basket";
 
 export const Button = styled.button`
   color: white;
@@ -18,12 +16,15 @@ interface Counter {
   count: number;
   setCartCounter: Function;
   cartCounter: number;
-  setProductImage: Function;
   setCartInformation: Function;
   src: any;
   title: string;
   value: number | string;
   buttonText: string | number;
+  basket: any;
+  setBasket: Function;
+  setBasketOpen: Function;
+  basketOpen: any;
 }
 
 export const AddToCart = ({
@@ -36,6 +37,10 @@ export const AddToCart = ({
   value,
   cartCounter,
   buttonText,
+  basket,
+  setBasket,
+  setBasketOpen,
+  basketOpen,
 }: Counter) => {
   //need to add cart logo
 
@@ -48,6 +53,14 @@ export const AddToCart = ({
       quantity: cartCounter + count,
       value: value,
     });
+    if (count > 0) {
+      setBasket({
+        full: true,
+        empty: false,
+      });
+      console.log("basketOpen", basketOpen);
+      console.log("full", basket.full);
+    }
   };
 
   return (

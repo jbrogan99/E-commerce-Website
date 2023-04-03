@@ -11,6 +11,7 @@ import thumbnail3 from "./image-product-3-thumbnail.jpg";
 import largeImage4 from "./image-product-4.jpg";
 import thumbnail4 from "./image-product-4-thumbnail.jpg";
 import { useHighlightImage } from "./imageHighlightHook";
+import { BasketItems } from "./nav";
 
 interface MainContent {
   setProductImage: Function;
@@ -25,6 +26,11 @@ interface MainContent {
   cartCounter: number;
   setCartCounter: Function;
   setCartInformation: Function;
+  basket: BasketItems;
+  basketOpen: any;
+  cartInformation: any;
+  setBasket: Function;
+  setBasketOpen: Function;
 }
 
 const MainContainer = styled.main`
@@ -137,6 +143,8 @@ interface ProductImgInterface {
 }
 
 export const Main = ({
+  basket,
+  basketOpen,
   setCartInformation,
   setProductImage,
   adjustCount,
@@ -149,6 +157,8 @@ export const Main = ({
   originalValue,
   cartCounter,
   setCartCounter,
+  setBasket,
+  setBasketOpen,
 }: MainContent) => {
   const [mainImg, setMainImg] = useState(largeImage1);
 
@@ -214,6 +224,23 @@ export const Main = ({
 
   const { imagesState, updateHighlightedImage } = useHighlightImage();
 
+  const cartInfo = {
+    setBasket: setBasket,
+    setBasketOpen: setBasketOpen,
+    basket: basket,
+    basketOpen: basketOpen,
+    buttonText: "Add to Cart",
+    setCartInformation: setCartInformation,
+    src: thumbnail1,
+    title: "Fall Limited Edition Sneakers",
+    value: productValue,
+    setProductImage: setProductImage,
+    cartCounter: cartCounter,
+    setCartCounter: setCartCounter,
+    count: count,
+    adjustCount: adjustCount,
+  };
+
   return (
     <>
       <MainContainer>
@@ -221,33 +248,25 @@ export const Main = ({
           <ProductImgLarge className="large" src={mainImg} />
           <ProductImgSmallContainer>
             <ProductImg
-              // highlight={hightlightImgOne}
-              // highlight={imageHighlight[0]}
               highlight={imagesState.img1}
               className="small"
               onClick={() => changeImg("img-one")}
               src={thumbnail1}
             />
             <ProductImg
-              // highlight={hightlightImgTwo}
-              // highlight={imageHighlight[1]}
               highlight={imagesState.img2}
               className="small"
               onClick={() => changeImg("img-two")}
               src={thumbnail2}
             />
             <ProductImg
-              // highlight={imageHighlight[2]}
               highlight={imagesState.img3}
-              // highlight={hightlightImgThree}
               className="small"
               onClick={() => changeImg("img-three")}
               src={thumbnail3}
             />
             <ProductImg
-              // highlight={imageHighlight[3]}
               highlight={imagesState.img4}
-              // highlight={hightlightImgFour}
               className="small"
               onClick={() => changeImg("img-four")}
               src={thumbnail4}
@@ -267,18 +286,7 @@ export const Main = ({
             <OriginalValue>{originalValue}</OriginalValue>
             <ButtonsContainer>
               <QuantityButton count={count} adjustCount={adjustCount} />
-              <AddToCart
-                buttonText="Add to Cart"
-                setCartInformation={setCartInformation}
-                src={thumbnail1}
-                title={"Fall Limited Edition Sneakers"}
-                value={productValue}
-                setProductImage={setProductImage}
-                cartCounter={cartCounter}
-                setCartCounter={setCartCounter}
-                count={count}
-                adjustCount={adjustCount}
-              />
+              <AddToCart {...cartInfo} />
             </ButtonsContainer>
           </>
         </TextContainer>
